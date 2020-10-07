@@ -1,0 +1,38 @@
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    service: ads
+  name: ads
+  namespace: microservice
+spec:
+  ports:
+  - name: "8001"
+    port: 8001
+    targetPort: 8001
+  selector:
+    service: ads
+---
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  labels:
+    service: ads
+  name: ads
+  namespace: microservice
+spec:
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        service: ads
+    spec:
+      containers:
+      - env:
+        - name: GCP_PROJECT_ID
+          value: [PROJECT_ID]
+        image: gcr.io/cloud-solutions-images/ecomm-ads
+        imagePullPolicy: Always
+        name: ads
+        ports:
+        - containerPort: 8001

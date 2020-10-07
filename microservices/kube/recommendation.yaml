@@ -1,0 +1,38 @@
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    service: recommendation
+  name: recommendation
+  namespace: microservice
+spec:
+  ports:
+  - name: "50051"
+    port: 50051
+    targetPort: 50051
+  selector:
+    service: recommendation
+---
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  labels:
+    service: recommendation
+  name: recommendation
+  namespace: microservice
+spec:
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        service: recommendation
+    spec:
+      containers:
+      - env:
+        - name: GCP_PROJECT_ID
+          value: [PROJECT_ID]
+        image: gcr.io/cloud-solutions-images/ecomm-recommendation
+        imagePullPolicy: Always
+        name: recommendation
+        ports:
+        - containerPort: 50051

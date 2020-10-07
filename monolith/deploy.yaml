@@ -1,0 +1,49 @@
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    service: web
+  name: ecomm
+  namespace: monolith
+spec:
+  ports:
+  - name: "80"
+    port: 80
+    targetPort: 8080
+  selector:
+    service: web
+  type: LoadBalancer
+---
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  labels:
+    service: web
+  name: ecomm
+  namespace: monolith
+spec:
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        service: web
+    spec:
+      containers:
+      - name: ecomm
+        env:
+        - name: DB_HOST
+          value:  [DB_IP]:3306
+        - name: DB_PASSWORD
+          valueFrom: 
+            secretKeyRef:
+              name: dbsecret
+              key: password
+        - name: DB_USER
+          valueFrom:
+            secretKeyRef:
+              name: dbsecret
+              key: username
+        image: gcr.io/cloud-solutions-images/ecomm
+        imagePullPolicy: Always
+        ports:
+        - containerPort: 8080

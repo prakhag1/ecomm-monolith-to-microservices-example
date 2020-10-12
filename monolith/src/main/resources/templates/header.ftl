@@ -35,5 +35,3 @@ limitations under the License.
             </div>
          </div>
       </header>
-   </body>
-</html>

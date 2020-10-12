@@ -20,9 +20,7 @@ from google.protobuf import empty_pb2 as google_dot_protobuf_dot_empty__pb2
 
 
 class RecommendationServiceStub(object):
-  """---------------Recommendation service----------
-
-  """
+  """---------------Recommendation service----------"""
 
   def __init__(self, channel):
     """Constructor.
@@ -34,18 +32,17 @@ class RecommendationServiceStub(object):
         '/RecommendationService/ListRecommendations',
         request_serializer=demo__pb2.RecommendationsRequest.SerializeToString,
         response_deserializer=demo__pb2.ListRecommendationsResponse.FromString,
-        )
+    )
     self.HealthCheck = channel.unary_unary(
         '/RecommendationService/HealthCheck',
-        request_serializer=google_dot_protobuf_dot_empty__pb2.Empty.SerializeToString,
+        request_serializer=google_dot_protobuf_dot_empty__pb2.Empty
+        .SerializeToString,
         response_deserializer=demo__pb2.HealthStatusResponse.FromString,
-        )
+    )
 
 
 class RecommendationServiceServicer(object):
-  """---------------Recommendation service----------
-
-  """
+  """---------------Recommendation service----------"""
 
   def ListRecommendations(self, request, context):
     # missing associated documentation comment in .proto file
@@ -64,16 +61,21 @@ class RecommendationServiceServicer(object):
 
 def add_RecommendationServiceServicer_to_server(servicer, server):
   rpc_method_handlers = {
-      'ListRecommendations': grpc.unary_unary_rpc_method_handler(
-          servicer.ListRecommendations,
-          request_deserializer=demo__pb2.RecommendationsRequest.FromString,
-          response_serializer=demo__pb2.ListRecommendationsResponse.SerializeToString,
-      ),
-      'HealthCheck': grpc.unary_unary_rpc_method_handler(
-          servicer.HealthCheck,
-          request_deserializer=google_dot_protobuf_dot_empty__pb2.Empty.FromString,
-          response_serializer=demo__pb2.HealthStatusResponse.SerializeToString,
-      ),
+      'ListRecommendations':
+          grpc.unary_unary_rpc_method_handler(
+              servicer.ListRecommendations,
+              request_deserializer=demo__pb2.RecommendationsRequest.FromString,
+              response_serializer=demo__pb2.ListRecommendationsResponse
+              .SerializeToString,
+          ),
+      'HealthCheck':
+          grpc.unary_unary_rpc_method_handler(
+              servicer.HealthCheck,
+              request_deserializer=google_dot_protobuf_dot_empty__pb2.Empty
+              .FromString,
+              response_serializer=demo__pb2.HealthStatusResponse
+              .SerializeToString,
+          ),
   }
   generic_handler = grpc.method_handlers_generic_handler(
       'RecommendationService', rpc_method_handlers)

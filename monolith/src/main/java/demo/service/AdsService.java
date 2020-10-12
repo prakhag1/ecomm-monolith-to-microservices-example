@@ -1,28 +1,26 @@
-// Copyright 2020 Google LLC. All rights reserved.
-//
-// Licensed under the Apache License, Version 2.0 (the "License");
-// you may not use this file except in compliance with the License.
-// You may obtain a copy of the License at
-//
-//     http://www.apache.org/licenses/LICENSE-2.0
-//
-// Unless required by applicable law or agreed to in writing, software
-// distributed under the License is distributed on an "AS IS" BASIS,
-// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-// See the License for the specific language governing permissions and
-// limitations under the License.
+/* Copyright 2020 Google LLC. All rights reserved.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *    http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 
 package demo.service;
 
-import java.util.List;
-import java.util.Random;
-
-import org.springframework.stereotype.Service;
-
 import com.google.common.collect.ImmutableListMultimap;
-
 import demo.model.Ad;
 import demo.model.Product;
+import java.util.List;
+import java.util.Random;
+import org.springframework.stereotype.Service;
 
 @Service
 public class AdsService {
@@ -30,10 +28,16 @@ public class AdsService {
   private static final ImmutableListMultimap<String, Ad> adsMap = createAdsMap();
   private static final Random random = new Random();
 
+  /**
+   * Get recommended ad based on product selection
+   *
+   * @param product user selected product
+   * @return ad
+   */
   public Ad getrecommendedAd(Product product) {
-	  List<String> categories = product.getCategories();
-	  List<Ad> ads = adsMap.get(categories.get(random.nextInt(categories.size())));
-	  return ads.get(random.nextInt(ads.size()));
+    List<String> categories = product.getCategories();
+    List<Ad> ads = adsMap.get(categories.get(random.nextInt(categories.size())));
+    return ads.get(random.nextInt(ads.size()));
   }
 
   private static ImmutableListMultimap<String, Ad> createAdsMap() {

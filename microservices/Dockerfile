@@ -17,7 +17,7 @@ WORKDIR /tmp
 COPY pom.xml ./
 COPY src ./src
 RUN mvn dependency:go-offline -B
-RUN mvn package 
+RUN mvn package
 
 FROM openjdk:8-jre
 COPY --from=MAVEN_TOOL_CHAIN /tmp/target/ecomm-1.0-SNAPSHOT.jar /tmp/
